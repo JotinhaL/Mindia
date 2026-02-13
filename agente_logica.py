@@ -31,6 +31,22 @@ ESCALA_VALORES = {
     "Aplicou-se muito, ou na maioria do tempo": 3
 }
 
+
+PROMPT_CLASSIFICADOR = """
+Você é um assistente que converte respostas de pacientes para a escala DASS-21.
+A escala é:
+0: Não se aplicou
+1: Pouco tempo
+2: Boa parte do tempo
+3: Muito/Maioria do tempo
+
+Pergunta feita: {pergunta}
+Resposta do usuário: {texto_usuario}
+
+Responda APENAS com o número (0, 1, 2 ou 3) que melhor representa a fala do usuário.
+"""
+
+
 class SessaoDASS21:
     def __init__(self):
         self.indice_pergunta_atual = 0
@@ -53,3 +69,18 @@ class SessaoDASS21:
 
     def teste_finalizado(self):
         return self.indice_pergunta_atual >= len(self.questoes)
+    
+
+def calcular_resultados(respostas):
+    #Recebe uma lista de dicionários
+    #Soma e multiplica por 2 conforme a norma do DASS-21
+    scores = {"Depressão": 0, "Ansiedade": 0, "Estresse": 0}
+    
+    for r in respostas:
+        scores[r['categoria']] += r['valor']
+        
+    # Multiplicação oficial para a escala curta
+    for cat in scores:
+        scores[cat] *= 2
+        
+    return scores
