@@ -1,5 +1,5 @@
 from langchain_ollama import OllamaLLM
-from agente_logica import SessaoDASS21, PROMPT_CLASSIFICADOR, calcular_resultados, QUESTOES_DASS21
+from app.agents.agente_logica import SessaoDASS21, PROMPT_CLASSIFICADOR, calcular_resultados, QUESTOES_DASS21
 
 # 1. Inicializa a IA
 llm = OllamaLLM(model="llama3.2") 
