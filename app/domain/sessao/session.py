@@ -44,9 +44,9 @@ class SessaoDASS21:
         self.updated_at = datetime.datetime.now(datetime.timezone.utc)
         self.questions = DASS21_QUESTIONS
 
-    def close(self) -> None:
+    def finish(self) -> None:
         if self.status != SessionStatus.ACTIVE:
-            raise InvalidSessionError("Only active sessions can be closed.")
+            raise InvalidSessionError("Only active sessions can be finished.")
         self.status = SessionStatus.CLOSED
         self.ended_at = datetime.datetime.now(datetime.timezone.utc)
         self.updated_at = datetime.datetime.now(datetime.timezone.utc)
@@ -66,4 +66,7 @@ class SessaoDASS21:
         self.actual_question_index += 1
         self.updated_at = datetime.datetime.now(datetime.timezone.utc)
 
-
+    def is_active(self) -> bool:
+        return self.status == SessionStatus.ACTIVE
+    
+    
