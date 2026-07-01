@@ -1,5 +1,5 @@
 from typing import ClassVar, List
-from .questions import Question
+from .question import Question
 
 class DASS21Questions:
     _questions: ClassVar[List[Question]] = [
