@@ -3,7 +3,7 @@ import uuid
 from app.domain.questions.dass_21_questions import DASS21_QUESTIONS
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import List, Optional, Protocol
+from typing import List, Optional
 from app.domain.answers.answer import Answer
 from app.domain.questions.question import Question
 
