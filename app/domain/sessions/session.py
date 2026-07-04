@@ -1,5 +1,7 @@
 import datetime
 import uuid
+from app.domain.assesments.classification import Classification
+from app.domain.assesments.score import Score
 from app.domain.questions.dass_21_questions import DASS21_QUESTIONS
 from dataclasses import dataclass, field
 from enum import Enum
@@ -33,6 +35,8 @@ class SessaoDASS21:
     actual_question_index: int = 0
     answers: List[Answer] = field(default_factory=list)
     questions: List[Question] = field(default_factory=list)
+    classification: Classification | None = None
+    score: Score | None = None
     started_at: Optional[datetime.datetime] = None
     ended_at: Optional[datetime.datetime] = None
     created_at: datetime.datetime = field(default_factory=datetime.datetime.now(datetime.timezone.utc))
@@ -59,6 +63,9 @@ class SessaoDASS21:
         self.answers = []
         self.updated_at = datetime.datetime.now(datetime.timezone.utc)
 
+    def next_question(self) -> None:
+        self.actual_question_index += 1
+
     def answer_current_question(self, content: str) -> None:
         if self.status != SessionStatus.ACTIVE:
             raise InvalidSessionError("Only active sessions can be answered.")
@@ -72,7 +79,7 @@ class SessaoDASS21:
             created_at=datetime.datetime.now(datetime.timezone.utc)
         )
         self.answers.append(answer)
-        self.actual_question_index += 1
+        self.next_question()
         self.updated_at = datetime.datetime.now(datetime.timezone.utc)
 
     def is_active(self) -> bool:

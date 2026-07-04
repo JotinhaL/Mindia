@@ -15,6 +15,8 @@ def session():
         actual_question_index = 0,
         answers = [],
         questions = [],
+        classification = None,
+        score = None,
         started_at = datetime.now(timezone.utc),
         ended_at = datetime.now(timezone.utc),
         created_at = datetime.now(timezone.utc),
