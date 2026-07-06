@@ -9,6 +9,7 @@ class Classification:
     anxiety: str
     stress: str
 
+    #analisar possibilidade de unir essas duas funcoes em uma só, para evitar duplicidade de código
     @classmethod
     def from_score(cls, score: Score) -> "Classification":
         return cls.classify_score(score.depression, score.anxiety, score.stress)

@@ -15,6 +15,8 @@ class Score:
 
     @classmethod
     def from_answers(cls, answers: list[Answer]) -> "Score":
+        if any(answer.value is None for answer in answers):
+            raise ValueError("Cannot calculate score: there are unanswered classifications.")
         depression = 0
         anxiety = 0
         stress = 0

@@ -13,10 +13,8 @@ from app.domain.questions.question import Question
 class InvalidSessionError(Exception):
     pass
 
-
 class SessionNotFoundError(Exception):
     pass
-
 
 @dataclass
 class Assessment:
@@ -33,8 +31,7 @@ class Assessment:
         if not self.questions:
             self.questions = list(DASS21_QUESTIONS)
 
-    def start(self) -> None:
-        self.questions = list(DASS21_QUESTIONS)
+    def restart(self) -> None:
         self.actual_question_index = 0
         self.answers = []
         self.score = None
@@ -56,25 +53,26 @@ class Assessment:
         if self.actual_question_index < len(self.questions):
             return self.questions[self.actual_question_index]
         return None
-
-    def next_question(self) -> Optional[Question]:
-        if self.actual_question_index + 1 < len(self.questions):
-            return self.questions[self.actual_question_index + 1]
-        return None
-
-    def answer_current_question(self, content: str) -> None:
+    
+    def next_question(self):
+        self.actual_question_index += 1
+        
+    
+    def answer_current_question(self, content: str, value: int):
         if self.actual_question_index >= len(self.questions):
             raise InvalidSessionError("No more questions to answer.")
-
+        
         answer = Answer(
             id=self.questions[self.actual_question_index].id,
             content=content,
+            value= value,
             question=self.questions[self.actual_question_index],
             created_at=datetime.datetime.now(datetime.timezone.utc),
         )
         self.answers.append(answer)
-        self.actual_question_index += 1
+        self.next_question()
         self.updated_at = datetime.datetime.now(datetime.timezone.utc)
+
 
     @property
     def is_completed(self) -> bool:

@@ -54,13 +54,7 @@ class SessaoDASS21:
         self.assessment = None
         self.updated_at = datetime.datetime.now(datetime.timezone.utc)
 
-    def answer_current_question(self, content: str) -> None:
-        if self.status != SessionStatus.ACTIVE:
-            raise InvalidSessionError("Only active sessions can be answered.")
-        if self.assessment is None:
-            raise InvalidSessionError("No assessment attached to this session.")
-        self.assessment.answer_current_question(content)
-
+    @property
     def is_active(self) -> bool:
         return self.status == SessionStatus.ACTIVE
     

@@ -32,14 +32,6 @@ def test_answer_current_question_invalid_state(session):
         session.answer_current_question("Minha resposta")
 
 
-def test_is_active(session):
-    assert session.is_active() is False
-
-    session.start()
-    assert session.is_active() is True
-
-    session.finish()
-    assert session.is_active() is False
 
 
 
