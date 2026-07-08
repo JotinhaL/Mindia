@@ -59,17 +59,18 @@ PROMPT_CLASSIFICADOR = """
 
     Exemplos:
 
-    Pergunta: "Achei difícil relaxar."
+    Pergunta: "Pensando na última semana, você sentiu dificuldade para se acalmar? Conte como foi."
     Resposta: "Quase todos os dias eu fico muito tenso."
     Saída: 3
 
-    Pergunta: "Achei difícil relaxar."
+    Pergunta: "Pensando na última semana, você percebeu sua boca seca em algum momento? Conte como foi."
     Resposta: "Às vezes acontece, mas é raro."
     Saída: 1
 
-    Pergunta: "Achei difícil relaxar."
+    Pergunta: "Pensando na última semana, você teve dificuldade para tomar iniciativa e fazer as coisas? Conte como foi."
     Resposta: "Não tive esse problema."
-    Saída: 0
+    Saída: 0   
+    
     """
 
 
