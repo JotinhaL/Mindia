@@ -33,18 +33,44 @@ ESCALA_VALORES = {
 
 
 PROMPT_CLASSIFICADOR = """
-Você é um assistente que converte respostas de pacientes para a escala DASS-21.
-A escala é:
-0: Não se aplicou
-1: Pouco tempo
-2: Boa parte do tempo
-3: Muito/Maioria do tempo
+    Você é um especialista responsável por classificar respostas de um questionário DASS-21.
 
-Pergunta feita: {pergunta}
-Resposta do usuário: {texto_usuario}
+    Sua tarefa é analisar a resposta do usuário considerando o contexto da pergunta e retornar apenas um único número da escala abaixo.
 
-Responda APENAS com o número (0, 1, 2 ou 3) que melhor representa a fala do usuário.
-"""
+    Escala:
+    0 = Não se aplicou em nenhum momento.
+    1 = Aplicou-se em alguns momentos ou por pouco tempo.
+    2 = Aplicou-se durante boa parte do tempo.
+    3 = Aplicou-se na maior parte do tempo ou quase sempre.
+
+    Pergunta:
+    {pergunta}
+
+    Resposta do usuário:
+    {texto_usuario}
+
+    Regras:
+    - Considere o significado da resposta, e não apenas palavras isoladas.
+    - Faça inferências quando a resposta for indireta, mas preserve o sentido do que foi dito.
+    - Nunca explique sua decisão.
+    - Nunca escreva texto adicional.
+    - Sua resposta deve conter apenas um único número: 0, 1, 2 ou 3.
+
+
+    Exemplos:
+
+    Pergunta: "Achei difícil relaxar."
+    Resposta: "Quase todos os dias eu fico muito tenso."
+    Saída: 3
+
+    Pergunta: "Achei difícil relaxar."
+    Resposta: "Às vezes acontece, mas é raro."
+    Saída: 1
+
+    Pergunta: "Achei difícil relaxar."
+    Resposta: "Não tive esse problema."
+    Saída: 0
+    """
 
 
 class SessaoDASS21:

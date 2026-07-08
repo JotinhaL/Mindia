@@ -9,10 +9,6 @@ class OllamaService:
     def __init__(self):
         self.llm = OllamaLLM(model="llama3.2")
 
-    # *TODO implementar
-    def greeting(self):
-        return "Olá! Vamos iniciar a avaliação."
-
     def processar_conversa(self, pergunta: str, resposta: str) -> int | None:
         prompt_final = f"""
         {PROMPT_CLASSIFICADOR}
