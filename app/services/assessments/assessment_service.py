@@ -9,13 +9,18 @@ class AssessmentService:
 
 
     # *TODO implementar
-    def answer_question(self):
+    """def answer_question(self):
         actual_question = self.assessment.current_question()
         content = actual_question.content 
 
-        if actual_question is None:
-            raise InvalidSessionError("Cannot answer question: no questions left")
+          answer = Answer(
+            id=self.questions[self.actual_question_index].id,
+            content=content,
+            value= value,
+            question=self.questions[self.actual_question_index],
+            created_at=datetime.datetime.now(datetime.timezone.utc),
+        )"""
+
         
-        self.assessment.answer_current_question(content, value)
-        
+    
         

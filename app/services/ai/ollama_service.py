@@ -2,12 +2,16 @@ import re
 
 from langchain_ollama import OllamaLLM
 from app.agents.agente_logica import PROMPT_CLASSIFICADOR
-from app.domain.assessments.assessment import Assessment
+
 
 
 class OllamaService:
     def __init__(self):
         self.llm = OllamaLLM(model="llama3.2")
+
+    # *TODO implementar
+    def greeting(self):
+        return "Olá! Vamos iniciar a avaliação."
 
     def processar_conversa(self, pergunta: str, resposta: str) -> int | None:
         prompt_final = f"""
