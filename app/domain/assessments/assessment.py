@@ -56,21 +56,13 @@ class Assessment:
     
     def next_question(self):
         self.actual_question_index += 1
-        
     
-    def answer_current_question(self, content: str, value: int):
+    
+    def answer_current_question(self, answer: Answer):
         if self.actual_question_index >= len(self.questions):
             raise InvalidSessionError("No more questions to answer.")
         
-        answer = Answer(
-            id=self.questions[self.actual_question_index].id,
-            content=content,
-            value= value,
-            question=self.questions[self.actual_question_index],
-            created_at=datetime.datetime.now(datetime.timezone.utc),
-        )
         self.answers.append(answer)
-        self.next_question()
         self.updated_at = datetime.datetime.now(datetime.timezone.utc)
 
 
