@@ -1,15 +1,16 @@
 import re
 
 from langchain_ollama import OllamaLLM
-from app.agents.agente_logica import PROMPT_CLASSIFICADOR
+from app.agents.agente_logica import PROMPT_CLASSIFICADOR, PROMPT_FEEDBACK
+from app.dto.feedback import Feedback_DTO
 
 
 
 class OllamaService:
-    def __init__(self):
-        self.llm = OllamaLLM(model="llama3.2")
+    def __init__(self, llm = None):
+        self.llm = llm or OllamaLLM(model="llama3.2")
 
-    def processar_conversa(self, pergunta: str, resposta: str) -> int | None:
+    def process_conversation(self, pergunta: str, resposta: str) -> int | None:
         prompt_final = f"""
         {PROMPT_CLASSIFICADOR}
 
@@ -27,5 +28,20 @@ class OllamaService:
                 return valor
 
         return None
+    
+
+    def generate_feedback(self, Feedback_DTO: Feedback_DTO) -> str:
+        prompt_final = f"""
+        {PROMPT_FEEDBACK}
+
+        {Feedback_DTO.stress}
+        {Feedback_DTO.anxiety}
+        {Feedback_DTO.depression}
+        {Feedback_DTO.answers}
+        """
+
+        resposta_ia = self.llm.invoke(prompt_final)
+
+        return resposta_ia
         
         

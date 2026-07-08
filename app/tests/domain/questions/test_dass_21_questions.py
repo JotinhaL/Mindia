@@ -14,7 +14,7 @@ def test_get_question_by_id(dass_21_questions):
     question = next((q for q in dass_21_questions if q.id == question_id), None)
     assert question is not None
     assert question.id == question_id
-    assert question.content == "Achei difícil ter iniciativa para fazer as coisas"
+    assert question.content == "Pensando na última semana, você teve dificuldade para tomar iniciativa e fazer as coisas? Conte como foi."
 
 def test_get_questions_by_category(dass_21_questions):
     category = "Ansiedade"

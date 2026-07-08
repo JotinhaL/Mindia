@@ -6,7 +6,7 @@ from app.services.ai.ollama_service import OllamaService
 class AssessmentService:
     def __init__(self, assessment: Assessment):
         self.assessment = assessment
-        ollama_service = OllamaService()
+        self.ollama_service = OllamaService()
 
 
     def greeting(self):
@@ -26,7 +26,7 @@ class AssessmentService:
 
         actual_question = self.assessment.current_question()
         
-        actual_value = self.ollama_service.processar_conversa(actual_question.content, response)
+        actual_value = self.ollama_service.process_conversation(actual_question.content, response)
 
         answer = Answer(
             id= actual_question.id,
