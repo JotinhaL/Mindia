@@ -4,9 +4,9 @@ from app.domain.chatMessages.chat_message import ChatMessage
 from app.domain.answers.answer import Answer
 from app.services.ai.ollama_service import OllamaService
 class AssessmentService:
-    def __init__(self, assessment: Assessment):
+    def __init__(self, assessment: Assessment, ollama_service: OllamaService):
         self.assessment = assessment
-        self.ollama_service = OllamaService()
+        self.ollama_service = ollama_service
 
 
     def greeting(self):
@@ -30,7 +30,7 @@ class AssessmentService:
 
         answer = Answer(
             id= actual_question.id,
-            content= actual_question.content,
+            content= response,
             value= actual_value,
             question= actual_question,
             created_at= datetime.datetime.now(datetime.timezone.utc),

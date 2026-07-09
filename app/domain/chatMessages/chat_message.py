@@ -1,5 +1,5 @@
+import datetime
 from dataclasses import dataclass , field
-from datetime import datetime
 from enum import Enum
 
 
@@ -13,7 +13,7 @@ class Role(Enum):
 class ChatMessage:
     role: Role 
     content: str
-    created_at: datetime.datetime = field(default_factory=datetime.datetime.now(datetime.timezone.utc))
+    created_at: datetime.datetime = field(default_factory=lambda: datetime.datetime.now(datetime.timezone.utc))
 
     @classmethod
     def assistant(cls, content: str):
