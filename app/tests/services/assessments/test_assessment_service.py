@@ -38,6 +38,7 @@ def test_assessment_service_greeting(assessment_service):
     assert len(greeting) == 7
 
 #TESTE DE RESPONDER A QUESTÃO E PASSAR PRA A PROXIMA
+#TESTE COM MOCK DE OLLAMA
 def test_assessment_service_answer_question(assessment, assessment_service, ollama_service):
     assessment_service.answer_question("Resposta do usuário")
     assessment_service.answer_question("Resposta do usuário 2")

@@ -21,7 +21,6 @@ class AssessmentService:
         ]
 
 
-    # *TODO implementar
     def answer_question(self, response: str):
 
         actual_question = self.assessment.current_question()

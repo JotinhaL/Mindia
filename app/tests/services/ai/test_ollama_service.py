@@ -23,7 +23,7 @@ def feedback_dto():
     )
 
 
-
+#TESTE MOCKADO
 def test_process_conversation_retorna_2(ollama_service, llm_mock):
 
     llm_mock.invoke.return_value = "2"
@@ -34,7 +34,8 @@ def test_process_conversation_retorna_2(ollama_service, llm_mock):
     )
 
     assert resultado == 2
-
+    
+#TESTE MOCKADO
 def test_feedback_generation(ollama_service, llm_mock, feedback_dto):
     llm_mock.invoke.return_value = "Feedback empatico"
 
