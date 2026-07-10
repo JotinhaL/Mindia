@@ -21,6 +21,10 @@ class AssessmentService:
         ]
 
 
+    # *pensar se preciso desse metodo no service*
+    def send_question(self):
+        return self.assessment.send_question()
+
     def answer_question(self, response: str):
 
         actual_question = self.assessment.current_question()

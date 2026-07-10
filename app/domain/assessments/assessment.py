@@ -54,6 +54,9 @@ class Assessment:
             return self.questions[self.actual_question_index]
         return None
     
+    def send_question(self):
+        return self.current_question()
+
     def next_question(self):
         self.actual_question_index += 1
     
