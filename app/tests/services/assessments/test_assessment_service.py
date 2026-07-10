@@ -39,6 +39,7 @@ def test_assessment_service_greeting(assessment_service):
 
 #TESTE DE RESPONDER A QUESTÃO E PASSAR PRA A PROXIMA
 #TESTE COM MOCK DE OLLAMA
+# *TODO: IMPPLEMENTAR TESTE COM O FINISH() E COM O GENERATE FEEDBACK(), ATUALMENTE O TESTE UNITARIO NAO PASSA
 def test_assessment_service_answer_question(assessment, assessment_service, ollama_service):
     assessment_service.answer_question("Resposta do usuário")
     assessment_service.answer_question("Resposta do usuário 2")

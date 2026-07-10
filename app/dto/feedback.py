@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 @dataclass
-class Feedback_DTO:
+class FeedbackDTO:
     stress: int 
     anxiety: int 
     depression: int 

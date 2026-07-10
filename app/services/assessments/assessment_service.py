@@ -3,6 +3,7 @@ from app.domain.assessments.assessment import Assessment
 from app.domain.chatMessages.chat_message import ChatMessage
 from app.domain.answers.answer import Answer
 from app.services.ai.ollama_service import OllamaService
+from app.dto.feedback import FeedbackDTO
 class AssessmentService:
     def __init__(self, assessment: Assessment, ollama_service: OllamaService):
         self.assessment = assessment
@@ -20,8 +21,6 @@ class AssessmentService:
             ChatMessage.assistant("Estou pronto para começar. Vamos para a primeira pergunta?")
         ]
 
-
-    # *pensar se preciso desse metodo no service*
     def send_question(self):
         return self.assessment.send_question()
 
@@ -32,7 +31,8 @@ class AssessmentService:
         actual_value = self.ollama_service.process_conversation(actual_question.content, response)
 
         answer = Answer(
-            id= actual_question.id,
+            #* ESSE ID SERA GERADO PELO BANCO DE DADOS
+            id= 0,
             content= response,
             value= actual_value,
             question= actual_question,
@@ -40,7 +40,24 @@ class AssessmentService:
         )
         
         self.assessment.answer_current_question(answer)
+
         self.assessment.next_question()
+
+        if not self.assessment.is_completed:
+            return self.assessment.send_question()
+        else:
+            scoreDTO = self.assessment.finish()
+
+            feedbackDTO = FeedbackDTO(
+                stress= scoreDTO.stress,
+                anxiety= scoreDTO.anxiety,
+                depression= scoreDTO.depression,
+                answers= self.assessment.answers,
+            )
+
+            return self.ollama_service.generate_feedback(feedbackDTO)
+        
+        
 
 
         

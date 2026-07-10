@@ -9,7 +9,6 @@ from app.domain.assessments.score import Score
 from app.domain.questions.dass_21_questions import DASS21_QUESTIONS
 from app.domain.questions.question import Question
 
-
 class InvalidSessionError(Exception):
     pass
 
@@ -38,7 +37,7 @@ class Assessment:
         self.classification = None
         self.updated_at = datetime.datetime.now(datetime.timezone.utc)
 
-    def finish(self) -> None:
+    def finish(self) -> Score | None:
         if not self.answers:
             raise InvalidSessionError("Cannot finish assessment with no answers.")
         self.score = Score.from_answers(self.answers)
@@ -48,6 +47,7 @@ class Assessment:
             self.score.stress,
         )
         self.updated_at = datetime.datetime.now(datetime.timezone.utc)
+        return self.score
 
     def current_question(self) -> Optional[Question]:
         if self.actual_question_index < len(self.questions):
