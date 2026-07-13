@@ -1,7 +1,7 @@
 import pytest
 from app.services.ai.ollama_service import OllamaService
 from unittest.mock import Mock
-from app.dto.feedback import Feedback_DTO
+from app.dto.feedback import FeedbackDTO
 
 
 @pytest.fixture
@@ -15,7 +15,7 @@ def ollama_service(llm_mock):
 
 @pytest.fixture
 def feedback_dto():
-    return Feedback_DTO(
+    return FeedbackDTO(
         stress=10,
         anxiety=5,
         depression=2,

@@ -41,6 +41,7 @@ class Assessment:
         if not self.answers:
             raise InvalidSessionError("Cannot finish assessment with no answers.")
         self.score = Score.from_answers(self.answers)
+        #atencao a essa classificacao abaixo, ta dando tudo normal verificar
         self.classification = Classification.classify_score(
             self.score.depression,
             self.score.anxiety,

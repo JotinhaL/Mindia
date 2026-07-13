@@ -2,7 +2,7 @@ import re
 
 from langchain_ollama import OllamaLLM
 from app.agents.agente_logica import PROMPT_CLASSIFICADOR, PROMPT_FEEDBACK
-from app.dto.feedback import Feedback_DTO
+from app.dto.feedback import FeedbackDTO
 
 
 
@@ -30,14 +30,14 @@ class OllamaService:
         return None
     
 
-    def generate_feedback(self, Feedback_DTO: Feedback_DTO) -> str:
+    def generate_feedback(self, FeedbackDTO: FeedbackDTO) -> str:
         prompt_final = f"""
         {PROMPT_FEEDBACK}
 
-        {Feedback_DTO.stress}
-        {Feedback_DTO.anxiety}
-        {Feedback_DTO.depression}
-        {Feedback_DTO.answers}
+        {FeedbackDTO.stress}
+        {FeedbackDTO.anxiety}
+        {FeedbackDTO.depression}
+        {FeedbackDTO.answers}
         """
 
         resposta_ia = self.llm.invoke(prompt_final)

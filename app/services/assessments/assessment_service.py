@@ -42,7 +42,7 @@ class AssessmentService:
         self.assessment.answer_current_question(answer)
 
         self.assessment.next_question()
-
+        
         if not self.assessment.is_completed:
             return self.assessment.send_question()
         else:

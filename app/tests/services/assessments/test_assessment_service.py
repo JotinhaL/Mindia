@@ -26,6 +26,7 @@ def assessment():
 def ollama_service():
     service = Mock()
     service.process_conversation.return_value = 2
+    service.generate_feedback.return_value = "Feedback"
     return service
 
 @pytest.fixture
@@ -39,16 +40,18 @@ def test_assessment_service_greeting(assessment_service):
 
 #TESTE DE RESPONDER A QUESTÃO E PASSAR PRA A PROXIMA
 #TESTE COM MOCK DE OLLAMA
-# *TODO: IMPPLEMENTAR TESTE COM O FINISH() E COM O GENERATE FEEDBACK(), ATUALMENTE O TESTE UNITARIO NAO PASSA
 def test_assessment_service_answer_question(assessment, assessment_service, ollama_service):
     assessment_service.answer_question("Resposta do usuário")
     assessment_service.answer_question("Resposta do usuário 2")
+
     assert len(assessment_service.assessment.answers) == 2
     assert assessment_service.assessment.answers[0].content == "Resposta do usuário"
     assert assessment.actual_question_index == 2
 
+    ollama_service.generate_feedback.assert_called()
     ollama_service.process_conversation.assert_called()
 
 
+#TESTE DE FINISH
     
     
