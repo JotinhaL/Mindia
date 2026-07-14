@@ -32,8 +32,8 @@ class SessaoDASS21:
     assessment: Optional[Assessment] = None
     started_at: Optional[datetime.datetime] = None
     ended_at: Optional[datetime.datetime] = None
-    created_at: datetime.datetime = field(default_factory=datetime.datetime.now(datetime.timezone.utc))
-    updated_at: datetime.datetime = field(default_factory=datetime.datetime.now(datetime.timezone.utc))
+    created_at: datetime.datetime = field(default_factory=lambda: datetime.datetime.now(datetime.timezone.utc))
+    updated_at: datetime.datetime = field(default_factory=lambda: datetime.datetime.now(datetime.timezone.utc))
 
     def start(self) -> None:
         if self.status != SessionStatus.PENDING:
