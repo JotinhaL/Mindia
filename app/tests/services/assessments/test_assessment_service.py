@@ -52,6 +52,14 @@ def test_assessment_service_answer_question(assessment, assessment_service, olla
     ollama_service.process_conversation.assert_called()
 
 
-#TESTE DE FINISH
-    
-    
+def test_assessment_service_many_answers(assessment, assessment_service):
+    while assessment_service.assessment.actual_question_index < assessment.questions.__len__():
+        assessment_service.answer_question("Resposta do usuário")
+
+    assert len(assessment_service.assessment.answers) == assessment.questions.__len__()
+    assessment_service.assessment.actual_question_index += 1
+
+    with pytest.raises(Exception):
+        assessment.send_question(assessment.questions[assessment_service.assessment.actual_question_index])
+        
+
