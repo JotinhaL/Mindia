@@ -47,6 +47,7 @@ class AssessmentService:
             return self.assessment.send_question()
         else:
             scoreDTO = self.assessment.finish()
+            
 
             feedbackDTO = FeedbackDTO(
                 stress= scoreDTO.stress,
