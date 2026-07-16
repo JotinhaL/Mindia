@@ -1,6 +1,6 @@
 from enum import Enum
 
-class Department(str, Enum):
+class DepartmentEnum(str, Enum):
     ENGINEERING = "Engineering"
     IT = "IT"
     BUSINESS = "Business"
