@@ -4,6 +4,7 @@ from app.domain.chatMessages.chat_message import ChatMessage
 from app.domain.answers.answer import Answer
 from app.services.ai.ollama_service import OllamaService
 from app.dto.feedback import FeedbackDTO
+from app.api.schemas.assessment import AnswerResponse
 class AssessmentService:
     def __init__(self, assessment: Assessment, ollama_service: OllamaService):
         self.assessment = assessment
@@ -43,8 +44,18 @@ class AssessmentService:
 
         self.assessment.next_question()
         
+        #*TODO necessaria alteracao dessas condicoes para retornar o que sera usado la na api
         if not self.assessment.is_completed:
-            return self.assessment.send_question()
+            return AnswerResponse(
+                id= answer.id,
+                next_question= self.assessment.current_question().content,
+                finished= False,
+                depression= None,
+                anxiety= None,
+                stress= None,
+                feedback= None,
+                created_at= datetime.datetime.now(datetime.timezone.utc)
+            )
         else:
             scoreDTO = self.assessment.finish()
             
@@ -56,8 +67,18 @@ class AssessmentService:
                 answers= self.assessment.answers,
             )
 
-            return self.ollama_service.generate_feedback(feedbackDTO)
-        
+            feedback = self.ollama_service.generate_feedback(feedbackDTO)
+
+            return AnswerResponse(
+                id= answer.id,
+                next_question= None,
+                finished= True,
+                depression= scoreDTO.depression,
+                anxiety= scoreDTO.anxiety,
+                stress= scoreDTO.stress,
+                feedback= feedback,
+                created_at= datetime.datetime.now(datetime.timezone.utc),
+            )
         
 
 

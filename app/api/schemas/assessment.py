@@ -18,10 +18,9 @@ class AnswerResponse(BaseModel):
     id: int
     next_question: str | None
     finished: bool
-    created_at: datetime.datetime
-class FinishAssessmentResponse(BaseModel):
     depression: classificationResponse
     anxiety: classificationResponse
     stress: classificationResponse
     feedback: str
+    created_at: datetime.datetime
 
