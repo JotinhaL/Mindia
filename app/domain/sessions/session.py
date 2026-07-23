@@ -2,7 +2,6 @@ import datetime
 import uuid
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
 
 from app.domain.assessments.assessment import Assessment
 
@@ -29,9 +28,9 @@ class InvalidSessionError(SessionError):
 class SessaoDASS21:
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     status: SessionStatus = SessionStatus.PENDING
-    assessment: Optional[Assessment] = None
-    started_at: Optional[datetime.datetime] = None
-    ended_at: Optional[datetime.datetime] = None
+    assessment: Assessment | None = None
+    started_at: datetime.datetime | None = None
+    ended_at: datetime.datetime | None = None
     created_at: datetime.datetime = field(default_factory=lambda: datetime.datetime.now(datetime.timezone.utc))
     updated_at: datetime.datetime = field(default_factory=lambda: datetime.datetime.now(datetime.timezone.utc))
 

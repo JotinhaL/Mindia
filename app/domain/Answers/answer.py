@@ -1,7 +1,8 @@
-from dataclasses import dataclass
 import datetime
+from dataclasses import dataclass, field
+
 from app.domain.questions.question import Question
-from dataclasses import field
+
 
 @dataclass
 class Answer:
