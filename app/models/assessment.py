@@ -66,7 +66,7 @@ class AssessmentModel(Base):
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
         nullable=False,
-        default=datetime.utcnow
+        default= field(default_factory=lambda: datetime.datetime.now(datetime.timezone.utc)),
     )
     updated_at: Mapped[datetime] = mapped_column(
         DateTime,

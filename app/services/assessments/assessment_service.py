@@ -1,10 +1,13 @@
 import datetime
+
+from app.api.schemas.assessment import AnswerResponse
+from app.domain.answers.answer import Answer
 from app.domain.assessments.assessment import Assessment
 from app.domain.chatMessages.chat_message import ChatMessage
-from app.domain.answers.answer import Answer
-from app.services.ai.ollama_service import OllamaService
 from app.dto.feedback import FeedbackDTO
-from app.api.schemas.assessment import AnswerResponse
+from app.services.ai.ollama_service import OllamaService
+
+
 class AssessmentService:
     def __init__(self, assessment: Assessment, ollama_service: OllamaService):
         self.assessment = assessment

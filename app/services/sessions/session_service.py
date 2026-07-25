@@ -1,6 +1,9 @@
 from dataclasses import dataclass
+
 from app.domain.assessments.assessment import Assessment
 from app.domain.sessions.session import SessaoDASS21
+
+
 @dataclass
 class SessionService:
 
