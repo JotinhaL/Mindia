@@ -62,6 +62,10 @@ class AssessmentModel(Base):
         String(50),
         nullable=True
     )
+    feedback: Mapped[str | None] = mapped_column(
+        String(1000),
+        nullable=True,
+    )
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
