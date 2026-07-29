@@ -1,13 +1,14 @@
-from fastapi import APIRouter
-from app.services.assessments.assessment_service import AssessmentService
 from uuid import uuid4
+
+from fastapi import APIRouter
 
 from app.api.schemas.assessment import (
     AnswerRequest,
     AnswerResponse,
     StartAssessmentRequest,
-    StartAssessmentResponse
+    StartAssessmentResponse,
 )
+from app.services.assessments.assessment_service import AssessmentService
 
 router = APIRouter(
     prefix="/assessment",
@@ -18,6 +19,7 @@ router = APIRouter(
 @router.post(
     "/{session_id}/answer",
     response_model=AnswerResponse,
+    status_code=201
 )
 
 
