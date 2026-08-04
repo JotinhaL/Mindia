@@ -31,7 +31,7 @@ class AssessmentModel(Base):
         default=0
     )
 
-    status: Mapped[str] = mapped_column(
+    session_status: Mapped[str] = mapped_column(
         String(20),
         nullable=False,
         default="PENDING"

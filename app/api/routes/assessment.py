@@ -1,3 +1,4 @@
+import datetime
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends
@@ -26,18 +27,18 @@ def answer_question(
     request: AnswerRequest,
     db: Session = Depends(get_db)
 ):
-    repository = AssessmentRepository(db)
-
-    assessment = repository.get_by_id(assessment_id)
+    assessment_repository = AssessmentRepository(db)
+    assessment = assessment_repository.get_by_id(assessment_id)
 
     service = AssessmentService(
         assessment=assessment,
         ollama_service=OllamaService()
     )
 
-    service.answer_question(request.answer)
+    response = service.answer_question(request.answer)
+    assessment_repository.save(assessment)
 
-    repository.save(assessment)
+    return response
 
 
 def answer_question(session_id: uuid4, request: AnswerRequest):

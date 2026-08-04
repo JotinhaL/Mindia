@@ -25,6 +25,7 @@ class AssessmentService:
             ChatMessage.assistant("Estou pronto para começar. Vamos para a primeira pergunta?")
         ]
 
+    #*TODO refatorar essa funcao para separar responsabilidades, pois ela esta fazendo muita coisa
     def send_question(self):
         return self.assessment.send_question()
 
