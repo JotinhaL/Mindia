@@ -6,7 +6,6 @@ from app.domain.assessments.assessment import Assessment
 from app.domain.assessments.score import Score
 from app.domain.chatMessages.chat_message import ChatMessage
 from app.domain.questions.question import Question
-from app.dto.feedback import FeedbackDTO
 from app.services.ai.ollama_service import OllamaService
 
 
@@ -27,7 +26,6 @@ class AssessmentService:
             ChatMessage.assistant("Estou pronto para começar. Vamos para a primeira pergunta?")
         ]
 
-    #*TODO refatorar essa funcao para separar responsabilidades, pois ela esta fazendo muita coisa
     def send_question(self):
         return self.assessment.send_question()
 
