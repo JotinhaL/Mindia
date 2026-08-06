@@ -1,5 +1,5 @@
 import datetime
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
@@ -20,10 +20,9 @@ router = APIRouter(
     tags=["Assessment"],
 )
 
-#*TODO integrar o banco de dados
 @router.post("/{session_id}/answer", response_model=AnswerResponse)
 def answer_question(
-    assessment_id: uuid4,
+    assessment_id: UUID,
     request: AnswerRequest,
     db: Session = Depends(get_db)
 ):
@@ -40,6 +39,3 @@ def answer_question(
 
     return response
 
-
-def answer_question(session_id: uuid4, request: AnswerRequest):
-    session_uuid = session_id
