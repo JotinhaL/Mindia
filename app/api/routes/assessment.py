@@ -1,7 +1,7 @@
 import datetime
 from uuid import UUID, uuid4
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.api.schemas.assessment import (
@@ -29,10 +29,18 @@ def answer_question(
     assessment_repository = AssessmentRepository(db)
     assessment = assessment_repository.get_by_id(assessment_id)
 
+    if not assessment:
+        raise HTTPException(
+            status_code=404,
+            detail="Assessment not found"
+        )
+
     service = AssessmentService(
         assessment=assessment,
         ollama_service=OllamaService()
     )
+
+
 
     response = service.answer_question(request.answer)
     assessment_repository.save(assessment)
