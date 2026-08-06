@@ -3,7 +3,9 @@ import datetime
 from app.api.schemas.assessment import AnswerResponse
 from app.domain.answers.answer import Answer
 from app.domain.assessments.assessment import Assessment
+from app.domain.assessments.score import Score
 from app.domain.chatMessages.chat_message import ChatMessage
+from app.domain.questions.question import Question
 from app.dto.feedback import FeedbackDTO
 from app.services.ai.ollama_service import OllamaService
 
@@ -29,60 +31,65 @@ class AssessmentService:
     def send_question(self):
         return self.assessment.send_question()
 
-    def answer_question(self, response: str):
-
-        actual_question = self.assessment.current_question()
+    def _create_answer(self, question: Question, response: str):
+        actual_value = self.ollama_service.process_conversation(question, response)
         
-        actual_value = self.ollama_service.process_conversation(actual_question.content, response)
-
         answer = Answer(
             #* ESSE ID SERA GERADO PELO BANCO DE DADOS
             id= 0,
             content= response,
             value= actual_value,
-            question= actual_question,
+            question= question,
             created_at= datetime.datetime.now(datetime.timezone.utc),
         )
+
+        return answer
+
+    def _create_answer_response_not_finished_dto(self, answer: Answer):
+        next_question = self.assessment.current_question()
+
+        return AnswerResponse(
+            id= answer.id,
+            next_question= next_question,
+            finished= False,
+            depression= None,
+            anxiety= None,
+            stress= None,
+            feedback= None,
+            created_at= datetime.datetime.now(datetime.timezone.utc)
+        )
+
+    def _finish_assessment(self, last_answer: Answer, score: Score):
+        feedback = self.ollama_service.generate_feedback(score)
+        return AnswerResponse(
+                id= last_answer.id,
+                next_question= None,
+                finished= True,
+                depression= score.depression,
+                anxiety= score.anxiety,
+                stress= score.stress,
+                feedback= feedback,
+                created_at= datetime.datetime.now(datetime.timezone.utc)
+        )
+
+    def answer_question(self, response: str):
+
+        current_question = self.assessment.current_question()
+
+        answer = self._create_answer(current_question, response)
         
         self.assessment.answer_current_question(answer)
 
         self.assessment.next_question()
+
+        if self.assessment.is_completed:
+            score = self.assessment.finish()
+            return self._finish_assessment(answer, score)
+
+
+        #renomear essa funcao pq ela n cria dto ela ja finaliza o assessment
+        return self._create_answer_response_not_finished_dto(answer)
         
-        #*TODO necessaria alteracao dessas condicoes para retornar o que sera usado la na api
-        if not self.assessment.is_completed:
-            return AnswerResponse(
-                id= answer.id,
-                next_question= self.assessment.current_question().content,
-                finished= False,
-                depression= None,
-                anxiety= None,
-                stress= None,
-                feedback= None,
-                created_at= datetime.datetime.now(datetime.timezone.utc)
-            )
-        else:
-            scoreDTO = self.assessment.finish()
-            
-
-            feedbackDTO = FeedbackDTO(
-                stress= scoreDTO.stress,
-                anxiety= scoreDTO.anxiety,
-                depression= scoreDTO.depression,
-                answers= self.assessment.answers,
-            )
-
-            feedback = self.ollama_service.generate_feedback(feedbackDTO)
-
-            return AnswerResponse(
-                id= answer.id,
-                next_question= None,
-                finished= True,
-                depression= scoreDTO.depression,
-                anxiety= scoreDTO.anxiety,
-                stress= scoreDTO.stress,
-                feedback= feedback,
-                created_at= datetime.datetime.now(datetime.timezone.utc),
-            )
         
 
 

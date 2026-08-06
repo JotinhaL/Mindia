@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class DepartmentEnum(str, Enum):
     ENGINEERING = "Engineering"
     IT = "IT"
